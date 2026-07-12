@@ -1,0 +1,280 @@
+# ============================================
+# Node.js / JavaScript
+# ============================================
+
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Lock files (keep for consistent installs)
+package-lock.json
+yarn.lock
+
+# Build outputs
+dist/
+build/
+out/
+*.tsbuildinfo
+
+# ============================================
+# Environment & Configuration
+# ============================================
+
+# Environment variables (sensitive)
+.env
+.env.local
+.env.*.local
+.env.production
+.env.staging
+*.env
+*.env.*.local
+
+# Keep example files (they're templates)
+!.env.example
+
+# ============================================
+# Logs
+# ============================================
+
+logs/
+*.log
+*.log.*
+logfile*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+access.log
+error.log
+
+# ============================================
+# OS & Editor Specific
+# ============================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ============================================
+# IDE / Editor Configurations
+# ============================================
+
+# Visual Studio Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+.history/
+
+# IntelliJ IDEA / WebStorm
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+.idea_modules/
+.settings/
+.project
+.classpath
+*.hprof
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+.sublime/
+
+# Vim
+*.swp
+*.swo
+*~
+*.un~
+*.orig
+
+# ============================================
+# Docker
+# ============================================
+
+# Docker volumes (local)
+docker-data/
+volumes/
+.containers/
+*.pid
+*.pid.lock
+
+# Docker compose overrides (local)
+docker-compose.override.yml
+docker-compose.*.override.yml
+docker-compose.*.yml.bak
+
+# ============================================
+# Database
+# ============================================
+
+# SQLite
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+*.sqlite-journal
+
+# MySQL (local dumps)
+*.sql.gz
+*.sql.bak
+*.my.cnf
+
+# MongoDB (local dumps)
+*.mongodb
+dump/
+mongodump/
+
+# ============================================
+# Python (for future AI service)
+# ============================================
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+pythonenv*
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+pyrightconfig.json
+
+# ============================================
+# Testing
+# ============================================
+
+coverage/
+.nyc_output/
+test-results/
+__tests__/
+__snapshots__/
+
+# ============================================
+# Misc
+# ============================================
+
+# Archives
+*.zip
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+*.gz
+*.bz2
+*.xz
+
+# Caches
+.cache/
+*.cache
+*.cache-file
+
+# Lock files
+*.lock
+*.pid
+
+# Backup files
+*~
+*.backup
+*.old
+*.orig
+
+# ============================================
+# Project Specific (DocMinr.ai)
+# ============================================
+
+# Storage (uploaded files - don't commit)
+storage/
+!storage/.gitkeep
+
+# Temp files
+temp/
+!temp/.gitkeep
+
+# Uploads
+uploads/
+!uploads/.gitkeep
+
+# Local development overrides
+*.local.js
+*.local.json
+*.local.env
+
+# ============================================
+# Security & Secrets
+# ============================================
+
+# Certificates & Keys
+*.pem
+*.key
+*.crt
+*.cer
+*.der
+*.pkcs12
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.truststore
+.secrets
+secrets/
+secrets.yaml
+secrets.json
+*.secret
+*.token
+
+# ============================================
+# Keep directory structures
+# ============================================
+
+# Ensure directories stay in git
+!backend/storage/.gitkeep
+!backend/temp/.gitkeep
+!backend/db/migrations/.gitkeep
+!frontend/src/.gitkeep
+!ai-service/src/.gitkeep

@@ -1,0 +1,98 @@
+version: '3.8'
+
+# ============================================
+# Services
+# ============================================
+services:
+  # ==========================================
+  # MySQL Database Service
+  # ==========================================
+  mysql:
+    image: mysql:8.0
+    container_name: docminr-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./backend/db/migrations:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - docminr-network
+    command: 
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --max_connections=1000
+
+  # ==========================================
+  # Backend API Service
+  # ==========================================
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: docminr-backend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      PORT: ${PORT}
+      DB_HOST: mysql
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
+      STORAGE_PATH: /app/storage/knowledge-bases
+      CORS_ORIGIN: ${CORS_ORIGIN}
+      MAX_FILE_SIZE: ${MAX_FILE_SIZE}
+      MAX_FILES_PER_UPLOAD: ${MAX_FILES_PER_UPLOAD}
+      MAX_TOTAL_UPLOAD_SIZE: ${MAX_TOTAL_UPLOAD_SIZE}
+    ports:
+      - "${PORT}:${PORT}"
+    volumes:
+      - backend_storage:/app/storage
+      - backend_temp:/app/temp/uploads
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - docminr-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${PORT}/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+# ============================================
+# Volumes (Persistent Data)
+# ============================================
+volumes:
+  mysql_data:
+    driver: local
+    name: docminr_mysql_data
+  backend_storage:
+    driver: local
+    name: docminr_backend_storage
+  backend_temp:
+    driver: local
+    name: docminr_backend_temp
+
+# ============================================
+# Networks
+# ============================================
+networks:
+  docminr-network:
+    driver: bridge
+    name: docminr_network
