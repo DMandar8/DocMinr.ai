@@ -51,7 +51,7 @@ const env = {
   QDRANT_PORT: process.env.QDRANT_PORT || 6333,
   
   // JWT (for Sprint 2 - Authentication)
-  JWT_SECRET: process.env.JWT_SECRET || 'Heloeiei39&3u8U|/.VMSDV,,XI&7%#)@U!DII812948HSD',
+  JWT_SECRET: process.env.JWT_SECRET || 'your-super-secret-jwt-key-change-this-in-production',
   JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || '7d',
   
   // Security

@@ -1,11 +1,8 @@
 version: '3.8'
 
-# ============================================
-# Services
-# ============================================
 services:
   # ==========================================
-  # MySQL Database Service
+  # MySQL Database
   # ==========================================
   mysql:
     image: mysql:8.0
@@ -29,13 +26,13 @@ services:
       start_period: 30s
     networks:
       - docminr-network
-    command: 
+    command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
       - --max_connections=1000
 
   # ==========================================
-  # Backend API Service
+  # Backend API
   # ==========================================
   backend:
     build:
@@ -58,6 +55,7 @@ services:
       MAX_FILE_SIZE: ${MAX_FILE_SIZE}
       MAX_FILES_PER_UPLOAD: ${MAX_FILES_PER_UPLOAD}
       MAX_TOTAL_UPLOAD_SIZE: ${MAX_TOTAL_UPLOAD_SIZE}
+      AI_SERVICE_URL: http://ai-service:8001
     ports:
       - "${PORT}:${PORT}"
     volumes:
@@ -75,8 +73,65 @@ services:
       retries: 3
       start_period: 40s
 
+  # ==========================================
+  # AI Service
+  # ==========================================
+  ai-service:
+    build:
+      context: ./ai-service
+      dockerfile: Dockerfile
+    container_name: docminr-ai-service
+    restart: unless-stopped
+    environment:
+      APP_NAME: ${AI_SERVICE_APP_NAME:-DocMinr.ai AI Service}
+      APP_VERSION: ${AI_SERVICE_APP_VERSION:-v1}
+      HOST: ${AI_SERVICE_HOST:-0.0.0.0}
+      PORT: ${AI_SERVICE_PORT:-8001}
+      ENVIRONMENT: ${AI_SERVICE_ENVIRONMENT:-development}
+      DEBUG: ${AI_SERVICE_DEBUG:-false}
+      BACKEND_API_URL: ${AI_SERVICE_BACKEND_API_URL:-http://backend:8000}
+      BACKEND_API_TIMEOUT: ${AI_SERVICE_BACKEND_API_TIMEOUT:-30}
+      EMBEDDING_MODEL: ${AI_SERVICE_EMBEDDING_MODEL:-all-MiniLM-L6-v2}
+      EMBEDDING_DIMENSIONS: ${AI_SERVICE_EMBEDDING_DIMENSIONS:-384}
+      EMBEDDING_BATCH_SIZE: ${AI_SERVICE_EMBEDDING_BATCH_SIZE:-32}
+      CHUNK_SIZE: ${AI_SERVICE_CHUNK_SIZE:-500}
+      CHUNK_OVERLAP: ${AI_SERVICE_CHUNK_OVERLAP:-50}
+      QDRANT_HOST: ${AI_SERVICE_QDRANT_HOST:-qdrant}
+      QDRANT_PORT: ${AI_SERVICE_QDRANT_PORT:-6333}
+      QDRANT_COLLECTION: ${AI_SERVICE_QDRANT_COLLECTION:-docminr_docs}
+      MONGODB_URI: ${AI_SERVICE_MONGODB_URI:-mongodb://mongodb:27017}
+      MONGODB_DATABASE: ${AI_SERVICE_MONGODB_DATABASE:-docminr}
+      OLLAMA_URL: ${AI_SERVICE_OLLAMA_URL:-http://ollama:11434}
+      OLLAMA_MODEL: ${AI_SERVICE_OLLAMA_MODEL:-llama2:7b}
+      LLM_TEMPERATURE: ${AI_SERVICE_LLM_TEMPERATURE:-0.3}
+      LLM_MAX_TOKENS: ${AI_SERVICE_LLM_MAX_TOKENS:-2048}
+      DEFAULT_TOP_K: ${AI_SERVICE_DEFAULT_TOP_K:-5}
+      SIMILARITY_THRESHOLD: ${AI_SERVICE_SIMILARITY_THRESHOLD:-0.3}
+      STORAGE_PATH: ${AI_SERVICE_STORAGE_PATH:-/app/storage}
+      TEMP_PATH: ${AI_SERVICE_TEMP_PATH:-/app/temp}
+      LOG_LEVEL: ${AI_SERVICE_LOG_LEVEL:-INFO}
+    ports:
+      - "${AI_SERVICE_PORT:-8001}:8001"
+    volumes:
+      - ./ai-service/app:/app/app
+      - backend_storage:/app/storage
+      - backend_temp:/app/temp
+    networks:
+      - docminr-network
+    depends_on:
+      backend:
+        condition: service_started
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
 # ============================================
-# Volumes (Persistent Data)
+# Volumes
 # ============================================
 volumes:
   mysql_data:
