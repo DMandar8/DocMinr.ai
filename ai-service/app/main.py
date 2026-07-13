@@ -10,6 +10,8 @@ from datetime import datetime
 
 from app.core.config import settings
 from app.api.routes import health
+from app.api.routes import health, process  # Add process
+
 
 # Setup logging
 logging.basicConfig(
@@ -85,6 +87,12 @@ app.include_router(
     health.router,
     prefix="/api/v1",
     tags=["health"]
+)
+
+app.include_router(
+    process.router,
+    prefix="/api/v1",
+    tags=["processing"]
 )
 
 # ============================================

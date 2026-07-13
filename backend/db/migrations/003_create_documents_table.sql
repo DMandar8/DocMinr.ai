@@ -12,7 +12,10 @@ CREATE TABLE dm_documents (
     doc_metadata JSON NULL,
     doc_createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     doc_updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (doc_kb_id) REFERENCES dm_knowledge_base(kb_id) ON DELETE CASCADE
+    FOREIGN KEY (doc_kb_id) REFERENCES dm_knowledge_base(kb_id) ON DELETE CASCADE,
+    INDEX idx_kb_id (doc_kb_id),
+    INDEX idx_status (doc_status),
+    INDEX idx_relative_path (doc_relative_path)
 );
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
