@@ -33,7 +33,8 @@ class ParserFactory:
                 f"Supported: {list(PARSER_MAP.keys())}"
             )
         
-        return PARSER_MAP[extension](file_path)
+        parser_class = PARSER_MAP[extension]
+        return parser_class(file_path)
     
     @staticmethod
     def get_supported_extensions() -> list:

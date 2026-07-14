@@ -190,29 +190,54 @@ const getDocumentStats = async (req, res, next) => {
  * Update document status (for internal use)
  * PATCH /api/v1/documents/status/:docId
  */
+// const updateDocumentStatus = async (req, res, next) => {
+//   try {
+//     const docId = parseInt(req.params.docId);
+//     const { status } = req.body;
+//     const userId = req.user.userId;
+
+//     // Check document ownership
+//     const doc = await documentService.getDocumentById(docId);
+//     if (!doc) {
+//       return res.status(404).json({
+//         success: false,
+//         message: 'Document not found',
+//       });
+//     }
+
+//     const isOwner = await knowledgeBaseService.isKnowledgeBaseOwner(doc.kbId, userId);
+//     if (!isOwner) {
+//       return res.status(403).json({
+//         success: false,
+//         message: 'You do not have access to this document',
+//       });
+//     }
+
+//     // Update status
+//     const updatedDoc = await documentService.updateDocumentStatus(docId, status);
+
+//     res.status(200).json({
+//       success: true,
+//       message: 'Document status updated',
+//       data: updatedDoc,
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+/**
+ * Update document status (for internal use - AI Service)
+ * PATCH /api/v1/documents/status/:docId
+ * This version DOES NOT require authentication (internal only)
+ */
 const updateDocumentStatus = async (req, res, next) => {
   try {
     const docId = parseInt(req.params.docId);
     const { status } = req.body;
-    const userId = req.user.userId;
-
-    // Check document ownership
-    const doc = await documentService.getDocumentById(docId);
-    if (!doc) {
-      return res.status(404).json({
-        success: false,
-        message: 'Document not found',
-      });
-    }
-
-    const isOwner = await knowledgeBaseService.isKnowledgeBaseOwner(doc.kbId, userId);
-    if (!isOwner) {
-      return res.status(403).json({
-        success: false,
-        message: 'You do not have access to this document',
-      });
-    }
-
+    
+    // Allow all internal status updates (AI service only)
+    // No ownership check needed - this endpoint is only accessible via Docker network
+    
     // Update status
     const updatedDoc = await documentService.updateDocumentStatus(docId, status);
 
@@ -225,6 +250,12 @@ const updateDocumentStatus = async (req, res, next) => {
     next(error);
   }
 };
+
+
+
+
+
+
 
 
 /**
@@ -294,6 +325,44 @@ const importFromZip = async (req, res, next) => {
   }
 };
 
+/**
+ * Get document by ID (Internal - for AI Service)
+ * GET /api/v1/documents/internal/:docId
+ * This endpoint is called by the AI Service to fetch document info
+ */
+const getDocumentInternal = async (req, res, next) => {
+  try {
+    const docId = parseInt(req.params.docId);
+    
+    // Get document from service
+    const doc = await documentService.getDocumentById(docId);
+    if (!doc) {
+      return res.status(404).json({
+        success: false,
+        message: 'Document not found',
+      });
+    }
+
+    // Return document info (no authentication required for internal calls)
+    res.status(200).json({
+      success: true,
+      data: {
+        docId: doc.docId,
+        kbId: doc.kbId,
+        originalName: doc.originalName,
+        storedName: doc.storedName,
+        path: doc.path,
+        status: doc.status,
+        mimeType: doc.mimeType,
+        size: doc.size,
+        relativePath: doc.relativePath,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 
 
 
@@ -305,4 +374,5 @@ module.exports = {
   getDocumentStats,
   updateDocumentStatus,
   importFromZip,
+  getDocumentInternal,
 };

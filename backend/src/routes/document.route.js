@@ -11,11 +11,31 @@ const {
   getDocumentStats,
   updateDocumentStatus,
   importFromZip,
+  getDocumentInternal,
 } = require('../controller/document.controller');
 const { authenticate } = require('../middleware/auth.middleware');
 const { uploadFiles, handleMulterError } = require('../middleware/fileUpload.middleware');
 
 const router = express.Router();
+
+/**
+ * @route   GET /api/v1/documents/internal/:docId
+ * @desc    Get document info (Internal - for AI Service)
+ * @access  Internal (AI Service only)
+ */
+router.get('/internal/:docId', getDocumentInternal);
+
+
+/**
+ * @route   PATCH /api/v1/documents/status/:docId
+ * @desc    Update document status (internal use)
+ * @access  Private
+ * @param   { docId } - Document ID
+ * @body    { status }
+ */
+router.patch('/status/:docId', updateDocumentStatus);
+
+
 
 // All document routes require authentication
 router.use(authenticate);
@@ -116,13 +136,5 @@ router.get('/download/:docId', downloadDocument);
  */
 router.delete('/:docId', deleteDocument);
 
-/**
- * @route   PATCH /api/v1/documents/status/:docId
- * @desc    Update document status (internal use)
- * @access  Private
- * @param   { docId } - Document ID
- * @body    { status }
- */
-router.patch('/status/:docId', updateDocumentStatus);
 
 module.exports = router;

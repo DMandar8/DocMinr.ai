@@ -48,7 +48,7 @@ class Settings(BaseSettings):
     # Debug Mode (Proper Boolean Handling)
     # ============================================
     DEBUG: bool = Field(
-        default=False,
+        default=True,
         description="Enable debug mode"
     )
     

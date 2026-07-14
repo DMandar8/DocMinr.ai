@@ -14,6 +14,8 @@ const path = require('path');
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 const { extractZip, cleanupTempDir } = require('../utils/zipUtils');
+const aiService = require('./ai.service');
+
 
 
 /**
@@ -474,6 +476,33 @@ const getDocumentStats = async (kbId) => {
   }
 };
 
+/**
+ * Trigger AI processing for a document
+ * @param {number} docId - Document ID
+ * @param {number} kbId - Knowledge Base ID
+ */
+const triggerAIProcessing = async (docId, kbId) => {
+  try {
+    // First, update status to INDEXING
+    await updateDocumentStatus(docId, 'INDEXING');
+    
+    // Then call AI service
+    const result = await aiService.processDocument(docId, kbId);
+    
+    if (result.success) {
+      // Status already updated to INDEXED by AI service
+      console.log(`✅ Document ${docId} processed successfully`);
+    }
+    
+    return result;
+  } catch (error) {
+    console.error(`❌ AI processing failed for doc ${docId}:`, error.message);
+    // Update status to FAILED
+    await updateDocumentStatus(docId, 'FAILED');
+    throw error;
+  }
+};
+
 module.exports = {
   uploadDocuments,
   createDocument,
@@ -484,4 +513,5 @@ module.exports = {
   getDocumentFilePath,
   getDocumentStats,
   importFromZip,
+  triggerAIProcessing,
 };

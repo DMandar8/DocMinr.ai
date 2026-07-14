@@ -10,6 +10,8 @@ const { notFoundHandler } = require('./middleware/notFound');
 const { errorHandler } = require('./middleware/errorHandler');
 const knowledgeBaseRoute = require('./routes/knowledgeBase.route');
 const documentRoute = require('./routes/document.route'); // NEW
+const aiRoute = require('./routes/ai.route');  // ← ADD THIS
+
 
 
 
@@ -66,7 +68,7 @@ app.use(`${API_PREFIX}/knowledge-bases`, knowledgeBaseRoute);
 
 app.use(`${API_PREFIX}/documents`, documentRoute); // NEW
 
-
+app.use(`${API_PREFIX}/ai`, aiRoute); 
 
 // Root route - basic info
 app.get('/', (req, res) => {
