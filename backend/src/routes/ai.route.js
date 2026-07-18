@@ -4,7 +4,12 @@
  */
 const express = require('express');
 const { authenticate } = require('../middleware/auth.middleware');
-const aiController = require('../controller/ai.controller');
+// const aiController = require('../controller/ai.controller');
+const {
+  triggerProcessing,
+  checkAIHealth,
+  getProcessingStatus,
+} = require('../controller/ai.controller');
 
 const router = express.Router();
 
@@ -20,7 +25,7 @@ router.use(authenticate);
  * @param   { docId } - Document ID
  * @returns {Object} - Processing status
  */
-router.post('/process/:docId', aiController.triggerProcessing);
+router.post('/process/:docId', triggerProcessing);
 
 /**
  * @route   GET /api/v1/ai/health
@@ -28,7 +33,7 @@ router.post('/process/:docId', aiController.triggerProcessing);
  * @access  Private
  * @returns {Object} - AI service health status
  */
-router.get('/health', aiController.checkAIHealth);
+router.get('/health', checkAIHealth);
 
 /**
  * @route   GET /api/v1/ai/status/:docId
@@ -37,6 +42,6 @@ router.get('/health', aiController.checkAIHealth);
  * @param   { docId } - Document ID
  * @returns {Object} - Processing status
  */
-router.get('/status/:docId', aiController.getProcessingStatus);
+router.get('/status/:docId', getProcessingStatus);
 
 module.exports = router;

@@ -10,6 +10,8 @@ import traceback
 
 from app.core.config import settings
 from app.parsers.factory import ParserFactory
+from app.services.chunking_service import ChunkingService
+
 
 logger = logging.getLogger(__name__)
 
@@ -20,6 +22,12 @@ class DocumentProcessor:
         self.backend_api = settings.BACKEND_API_URL
         self.processed_path = Path(settings.STORAGE_PATH) / "processed"
         self.processed_path.mkdir(parents=True, exist_ok=True)
+
+        # Initialize chunking service
+        self.chunking_service = ChunkingService(use_langchain=True)
+
+
+
         logger.info(f"🔧 DocumentProcessor initialized")
         logger.info(f"   BACKEND_API_URL: {self.backend_api}")
         logger.info(f"   PROCESSED_PATH: {self.processed_path}")
@@ -85,9 +93,14 @@ class DocumentProcessor:
             with open(meta_file, 'w', encoding='utf-8') as f:
                 json.dump(metadata, f, indent=2)
             logger.info(f"   ✅ Metadata saved to: {meta_file}")
-            
+
+
+            logger.info(f"🔍 STEP 8: Chunking text...")
+            chunk_result = await self.chunking_service.chunk_document(doc_id, text)
+            logger.info(f"   ✅ Generated {chunk_result['total_chunks']} chunks")
+
             # STEP 5: Update status in backend
-            logger.info(f"🔍 STEP 8: Updating status to INDEXED...")
+            logger.info(f"🔍 STEP 9: Updating status to INDEXED...")
             status_updated = await self._update_document_status(doc_id, "INDEXED")
             if not status_updated:
                 logger.warning(f"⚠️ Could not update status for doc {doc_id}")
@@ -100,10 +113,13 @@ class DocumentProcessor:
                 "word_count": metadata.get("word_count", 0),
                 "page_count": metadata.get("page_count", 0),
                 "text_length": len(text),
+                "total_chunks": chunk_result['total_chunks'],
                 "metadata": metadata,
+                "chunks_preview": chunk_result['chunks'],
             }
             
             logger.info(f"🎉 Document {doc_id} processed successfully!")
+            logger.info(f"   Total chunks: {chunk_result['total_chunks']}")
             logger.info(f"=" * 50)
             return result
             

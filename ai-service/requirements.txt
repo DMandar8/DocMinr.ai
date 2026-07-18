@@ -18,6 +18,14 @@ pdfplumber==0.10.3          # PDF parsing
 python-docx==1.1.0          # DOCX parsing
 
 # ============================================
+# Chunking - FIXED VERSIONS
+# ============================================
+langchain==0.1.13
+langchain-community==0.0.38
+langchain-text-splitters==0.0.2
+
+
+# ============================================
 # Utilities
 # ============================================
 python-dotenv==1.0.0
