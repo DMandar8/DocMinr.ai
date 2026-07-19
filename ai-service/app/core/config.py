@@ -247,6 +247,44 @@ class Settings(BaseSettings):
         default="cpu",
         description="Device to run embeddings on (cpu/cuda/mps)"
     )
+
+    # ============================================
+    # Qdrant Configuration
+    # ============================================
+    QDRANT_HOST: str = Field(
+        default="qdrant",
+        description="Qdrant hostname"
+    )
+    QDRANT_PORT: int = Field(
+        default=6333,
+        ge=1,
+        le=65535,
+        description="Qdrant REST API port"
+    )
+    QDRANT_GRPC_PORT: int = Field(
+        default=6334,
+        ge=1,
+        le=65535,
+        description="Qdrant gRPC port"
+    )
+    QDRANT_COLLECTION: str = Field(
+        default="docminr_docs",
+        description="Qdrant collection name"
+    )
+    QDRANT_VECTOR_SIZE: int = Field(
+        default=768,
+        description="Vector dimension (must match embedding model)"
+    )
+    QDRANT_DISTANCE: str = Field(
+        default="Cosine",
+        description="Distance metric: Cosine, Dot, Euclidean"
+    )
+    QDRANT_BATCH_SIZE: int = Field(
+        default=64,
+        description="Batch size for Qdrant operations"
+    )
+
+
     @property
     def is_production(self) -> bool:
         """Check if running in production"""

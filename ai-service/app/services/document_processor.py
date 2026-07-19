@@ -1,7 +1,7 @@
 """
 Document Processing Service - DEBUG VERSION
 """
-import json
+import json as jsonlib
 from pathlib import Path
 from typing import Dict, Any
 import logging
@@ -12,6 +12,8 @@ from app.core.config import settings
 from app.parsers.factory import ParserFactory
 from app.services.chunking_service import ChunkingService
 from app.embeddings import embedding_service
+from app.qdrant import indexing_service
+
 
 
 
@@ -93,7 +95,7 @@ class DocumentProcessor:
             logger.info(f"🔍 STEP 7: Saving metadata...")
             meta_file = self.processed_path / f"{doc_id}_metadata.json"
             with open(meta_file, 'w', encoding='utf-8') as f:
-                json.dump(metadata, f, indent=2)
+                jsonlib.dump(metadata, f, indent=2)
             logger.info(f"   ✅ Metadata saved to: {meta_file}")
 
 
@@ -113,8 +115,29 @@ class DocumentProcessor:
             logger.info(f"   Validation: {embedding_result['validation']['status']}")
 
 
+            # STEP 10: Index into Qdrant - NEW
+            logger.info(f"🔍 STEP 10: Indexing into Qdrant...")
+
+            # Get chunks and embeddings from saved files
+            chunks = chunk_result['chunks']
+            # Load embeddings from the saved file
+            import json as jsonlib2
+            with open(embedding_result['embeddings_file'], 'r') as f:
+                embedding_data = jsonlib2.load(f)
+                embeddings = [chunk['embedding'] for chunk in embedding_data['chunks']]
+
+            # Index into Qdrant
+            index_result = await indexing_service.index_document(
+                doc_id=doc_id,
+                kb_id=kb_id,
+                chunks=chunks,
+                embeddings=embeddings
+            )
+            logger.info(f"   ✅ Indexed {index_result['points_indexed']} points")
+
+
             # STEP 5: Update status in backend
-            logger.info(f"🔍 STEP 10: Updating status to INDEXED...")
+            logger.info(f"🔍 STEP 11: Updating status to INDEXED...")
             status_updated = await self._update_document_status(doc_id, "INDEXED")
             if not status_updated:
                 logger.warning(f"⚠️ Could not update status for doc {doc_id}")
@@ -131,6 +154,7 @@ class DocumentProcessor:
                 "embedding_dimension": embedding_result['dimension'],
                 "embedding_model": embedding_result['model_name'],
                 "validation_status": embedding_result['validation']['status'],
+                "qdrant_indexed": index_result['points_indexed'],
                 "metadata": metadata,
                 "chunks_preview": chunk_result['preview'],
             }

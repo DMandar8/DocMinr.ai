@@ -12,6 +12,8 @@ import os
 
 from app.core.config import settings
 from app.api.routes import health, process  
+from app.api.routes import health, process, search  # Add search
+
 
 # ============================================
 # Setup logging with DEBUG level
@@ -131,6 +133,12 @@ app.include_router(
     tags=["processing"]
 )
 logger.debug("   ✅ Process routes registered")
+
+app.include_router(
+    search.router,
+    prefix="/api/v1",
+    tags=["search"]
+)
 
 # ============================================
 # Root Endpoint
