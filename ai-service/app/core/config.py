@@ -226,7 +226,27 @@ class Settings(BaseSettings):
         pattern="^(DEBUG|INFO|WARNING|ERROR|CRITICAL)$",
         description="Logging level"
     )
-    
+    # ============================================
+    # Embedding Configuration
+    # ============================================
+    EMBEDDING_MODEL: str = Field(
+        default="BAAI/bge-base-en-v1.5",
+        description="Embedding model to use"
+    )
+    EMBEDDING_DIMENSION: int = Field(
+        default=768,
+        description="Dimension of embedding vectors"
+    )
+    EMBEDDING_BATCH_SIZE: int = Field(
+        default=32,
+        ge=1,
+        le=128,
+        description="Batch size for embedding generation"
+    )
+    EMBEDDING_DEVICE: str = Field(
+        default="cpu",
+        description="Device to run embeddings on (cpu/cuda/mps)"
+    )
     @property
     def is_production(self) -> bool:
         """Check if running in production"""

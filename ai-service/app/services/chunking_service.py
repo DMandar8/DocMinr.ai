@@ -69,7 +69,6 @@ class ChunkingService:
                     "chunk_size": config.CHUNK_SIZE,
                     "chunk_overlap": config.CHUNK_OVERLAP,
                     "chunker": "langchain" if self.use_langchain else "manual",
-                    # "created_at": str(Path(chunks_file).stat().st_ctime),
                     "created_at": str(datetime.now().isoformat()),
                 }
             }
@@ -90,9 +89,10 @@ class ChunkingService:
                 "doc_id": doc_id,
                 "success": True,
                 "total_chunks": len(chunks),
-                "chunks": chunks[:5],  # Return first 5 for preview
+                "chunks": chunks,
                 "chunks_file": str(chunks_file),
                 "metadata": chunks_data["metadata"],
+                "preview": chunks[:5],
             }
             
         except Exception as e:

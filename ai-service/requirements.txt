@@ -26,6 +26,14 @@ langchain-text-splitters==0.0.2
 
 
 # ============================================
+# Embeddings - NEW
+# ============================================
+sentence-transformers==2.7.0
+torch==2.3.1  # Required for sentence-transformers
+scikit-learn==1.5.0  # For similarity calculations
+
+# ============================================
 # Utilities
 # ============================================
 python-dotenv==1.0.0
+numpy==1.26.4

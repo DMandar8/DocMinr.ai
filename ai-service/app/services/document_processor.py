@@ -11,6 +11,8 @@ import traceback
 from app.core.config import settings
 from app.parsers.factory import ParserFactory
 from app.services.chunking_service import ChunkingService
+from app.embeddings import embedding_service
+
 
 
 logger = logging.getLogger(__name__)
@@ -99,8 +101,20 @@ class DocumentProcessor:
             chunk_result = await self.chunking_service.chunk_document(doc_id, text)
             logger.info(f"   ✅ Generated {chunk_result['total_chunks']} chunks")
 
+
+            # STEP 9: Generate Embeddings - NEW
+            logger.info(f"🔍 STEP 9: Generating embeddings...")
+            embedding_result = await embedding_service.generate_embeddings(
+                doc_id=doc_id,
+                chunks=chunk_result['chunks']
+            )
+            logger.info(f"   ✅ Generated {embedding_result['total_chunks']} embeddings")
+            logger.info(f"   Dimension: {embedding_result['dimension']}")
+            logger.info(f"   Validation: {embedding_result['validation']['status']}")
+
+
             # STEP 5: Update status in backend
-            logger.info(f"🔍 STEP 9: Updating status to INDEXED...")
+            logger.info(f"🔍 STEP 10: Updating status to INDEXED...")
             status_updated = await self._update_document_status(doc_id, "INDEXED")
             if not status_updated:
                 logger.warning(f"⚠️ Could not update status for doc {doc_id}")
@@ -114,10 +128,13 @@ class DocumentProcessor:
                 "page_count": metadata.get("page_count", 0),
                 "text_length": len(text),
                 "total_chunks": chunk_result['total_chunks'],
+                "embedding_dimension": embedding_result['dimension'],
+                "embedding_model": embedding_result['model_name'],
+                "validation_status": embedding_result['validation']['status'],
                 "metadata": metadata,
-                "chunks_preview": chunk_result['chunks'],
+                "chunks_preview": chunk_result['preview'],
             }
-            
+                        
             logger.info(f"🎉 Document {doc_id} processed successfully!")
             logger.info(f"   Total chunks: {chunk_result['total_chunks']}")
             logger.info(f"=" * 50)

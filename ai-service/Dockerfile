@@ -35,9 +35,14 @@ COPY --from=builder /usr/local/bin /usr/local/bin
 # Copy application code
 COPY app/ ./app/
 
-# Create directories for storage
-RUN mkdir -p /app/storage /app/temp && \
+# Create directories for storage and model cache
+RUN mkdir -p /app/storage /app/temp /app/storage/models && \
     chown -R appuser:appuser /app
+
+# Set Hugging Face cache environment variables
+ENV HF_HOME=/app/storage/models/huggingface
+ENV TRANSFORMERS_CACHE=/app/storage/models/huggingface/transformers
+
 
 # Switch to non-root user
 USER appuser
