@@ -13,6 +13,8 @@ import os
 from app.core.config import settings
 from app.api.routes import health, process  
 from app.api.routes import health, process, search  # Add search
+from app.api.routes import health, process, search, build_prompt
+
 
 
 # ============================================
@@ -138,6 +140,12 @@ app.include_router(
     search.router,
     prefix="/api/v1",
     tags=["search"]
+)
+
+app.include_router(
+    build_prompt.router,
+    prefix="/api/v1",
+    tags=["prompting"]
 )
 
 # ============================================
