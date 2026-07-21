@@ -11,9 +11,8 @@ import sys
 import os
 
 from app.core.config import settings
-from app.api.routes import health, process  
-from app.api.routes import health, process, search  # Add search
-from app.api.routes import health, process, search, build_prompt
+from app.api.routes import health, process, search, build_prompt, chat
+
 
 
 
@@ -146,6 +145,12 @@ app.include_router(
     build_prompt.router,
     prefix="/api/v1",
     tags=["prompting"]
+)
+
+app.include_router(
+    chat.router,
+    prefix="/api/v1",
+    tags=["chat"]
 )
 
 # ============================================

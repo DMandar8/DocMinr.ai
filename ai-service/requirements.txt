@@ -1,44 +1,45 @@
 # ============================================
 # Core Framework
 # ============================================
-fastapi==0.104.1
-uvicorn[standard]==0.24.0
-pydantic==2.4.2
-pydantic-settings==2.1.0
+fastapi==0.115.12          
+uvicorn[standard]==0.34.0 
+pydantic==2.12.5
+pydantic-settings==2.11.0
 
 # ============================================
 # HTTP Client
 # ============================================
-httpx==0.25.1
+httpx==0.28.1             
 
 # ============================================
-# Document Parsers - NEW
+# Document Parsers
 # ============================================
-pdfplumber==0.10.3          # PDF parsing
-python-docx==1.1.0          # DOCX parsing
+pdfplumber==0.10.3
+python-docx==1.1.0
 
 # ============================================
-# Chunking - FIXED VERSIONS
+# Chunking
 # ============================================
 langchain==0.1.13
 langchain-community==0.0.38
 langchain-text-splitters==0.0.2
 
-
 # ============================================
-# Embeddings - NEW
+# Embeddings
 # ============================================
 sentence-transformers==2.7.0
-torch==2.3.1  # Required for sentence-transformers
-scikit-learn==1.5.0  # For similarity calculations
-
+torch==2.3.1
+scikit-learn==1.5.0
 
 # ============================================
-# Qdrant - NEW
+# Qdrant
 # ============================================
 qdrant-client==1.9.0
 
-
+# ============================================
+# LLM - Gemini
+# ============================================
+google-genai==2.12.1
 
 # ============================================
 # Utilities
