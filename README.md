@@ -446,25 +446,19 @@ http://localhost:5173
 
 ---
 
-# 🔑 Environment Variables
+## Environment Variables
 
-Backend
+Copy the example environment file:
 
-```env
-PORT=
-
-JWT_SECRET=
-
-MYSQL_HOST=
-
-MYSQL_PORT=
-
-MYSQL_USER=
-
-MYSQL_PASSWORD=
-
-MYSQL_DATABASE=
+```bash
+cp .env.example .env
 ```
+
+Update the values in `.env` as needed before running the application.
+
+> **Note:** Never commit your `.env` file. It may contain secrets such as API keys and database credentials.
+
+---
 
 AI Service
 
