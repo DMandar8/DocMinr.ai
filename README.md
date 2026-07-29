@@ -18,7 +18,11 @@ Transform unstructured documents into intelligent, searchable knowledge using **
 ![LangGraph](https://img.shields.io/badge/LangGraph-Agentic_AI-orange?style=for-the-badge)
 ![Qdrant](https://img.shields.io/badge/Qdrant-Vector_Database-DC244C?style=for-the-badge)
 ![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+<br>
 
+[![GitHub stars](https://img.shields.io/github/stars/DMandar8/DocMinr.ai?style=flat-square)](https://github.com/DMandar8/DocMinr.ai/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/DMandar8/DocMinr.ai?style=flat-square)](https://github.com/DMandar8/DocMinr.ai/network/members)
+[![GitHub issues](https://img.shields.io/github/issues/DMandar8/DocMinr.ai?style=flat-square)](https://github.com/DMandar8/DocMinr.ai/issues)
 
 ---
 
