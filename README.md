@@ -2,7 +2,7 @@
 
 # 🚀 DocMinr.ai
 
-### Enterprise Knowledge Intelligence Platform
+### Enterprise AI Knowledge Intelligence Platform
 
 Transform unstructured documents into intelligent, searchable knowledge using **Retrieval-Augmented Generation (RAG)**, **Semantic Search**, and **Agentic AI**.
 
