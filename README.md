@@ -19,6 +19,7 @@ Transform unstructured documents into intelligent, searchable knowledge using **
 ![Qdrant](https://img.shields.io/badge/Qdrant-Vector_Database-DC244C?style=for-the-badge)
 ![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
+
 ---
 
 **Build AI-powered enterprise knowledge systems instead of simple document chatbots.**
