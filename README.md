@@ -23,6 +23,7 @@ Transform unstructured documents into intelligent, searchable knowledge using **
 [![GitHub stars](https://img.shields.io/github/stars/DMandar8/DocMinr.ai?style=flat-square)](https://github.com/DMandar8/DocMinr.ai/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/DMandar8/DocMinr.ai?style=flat-square)](https://github.com/DMandar8/DocMinr.ai/network/members)
 [![GitHub issues](https://img.shields.io/github/issues/DMandar8/DocMinr.ai?style=flat-square)](https://github.com/DMandar8/DocMinr.ai/issues)
+[![Last Commit](https://img.shields.io/github/last-commit/DMandar8/DocMinr.ai?style=flat-square)](https://github.com/DMandar8/DocMinr.ai/commits/main)
 
 ---
 
