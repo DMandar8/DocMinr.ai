@@ -1,0 +1,179 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 260px;
+  height: 100vh;
+  background: #ffffff;
+  border-right: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 16px;
+  z-index: 100;
+  overflow-y: auto;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 12px 20px 12px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.brandIcon {
+  color: #3b82f6;
+  width: 28px;
+  height: 28px;
+}
+
+.brandName {
+  font-size: 30px;
+  font-weight: 900;
+  color: #0f172a;
+}
+
+.brandTag {
+  font-size: 12px;
+  font-weight: 500;
+  color: #3b82f6;
+  background: #eff6ff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-left: -4px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 0 8px 0;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: #475569;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.15s ease;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.navLink:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+  text-decoration: none;
+}
+
+.navLink.active {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.kbSection {
+  flex: 1;
+  margin-top: 8px;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 12px;
+  overflow-y: auto;
+}
+
+.kbToggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: none;
+  border: none;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 6px;
+  transition: background 0.15s ease;
+}
+
+.kbToggle:hover {
+  background: #f1f5f9;
+}
+
+.kbList {
+  margin-top: 4px;
+  padding-left: 8px;
+}
+
+.kbLink {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  color: #475569;
+  font-size: 13px;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+
+.kbLink:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+  text-decoration: none;
+}
+
+.kbLink.active {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.kbIcon {
+  font-size: 14px;
+}
+
+.kbName {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kbLoading, .kbEmpty {
+  padding: 8px 12px;
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.footer {
+  border-top: 1px solid #f1f5f9;
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.logoutBtn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  width: 100%;
+}
+
+.logoutBtn:hover {
+  background: #fee2e2;
+  color: #ef4444;
+}

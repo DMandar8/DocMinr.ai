@@ -1,6 +1,27 @@
 version: '3.8'
 
 services:
+
+  # ==========================================
+  # Frontend Service
+  # ==========================================
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: docminr-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    environment:
+      - VITE_API_URL=http://backend:8000
+      - VITE_AI_SERVICE_URL=http://ai-service:8001
+    networks:
+      - docminr-network
+    depends_on:
+      - backend
+      - ai-service
+
   # ==========================================
   # MySQL Database
   # ==========================================
